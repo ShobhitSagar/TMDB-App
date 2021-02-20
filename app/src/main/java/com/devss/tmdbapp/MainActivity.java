@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(R.id.text_view);
+        ListView listView = findViewById(R.id.list_view);
 
         Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(BASE_URL)
@@ -47,8 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 MovieResults results = response.body();
                 List<MovieResults.Result> listOfMovies = results.getResults();
 
-                tv.setText(listOfMovies.get(3).getTitle());
                 Log.d(TAG, "onResponse: "+ listOfMovies.get(3).getTitle());
+
+                // In ListView
+                List<String> list = new ArrayList<>();
+                for (int i=0; i<listOfMovies.size(); i++) {
+                    list.add(listOfMovies.get(i).getTitle());
+                }
+
+                ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
             }
 
             @Override
