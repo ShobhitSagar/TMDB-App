@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ListView listView = findViewById(R.id.list_view);
-
         Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
@@ -56,18 +54,11 @@ public class MainActivity extends AppCompatActivity {
                 MovieResults results = response.body();
                 List<MovieResults.Result> listOfMovies = results.getResults();
 
-                Log.d(TAG, "onResponse: "+ listOfMovies.get(3).getTitle());
-
                 // In ListView
-//                List<String> list = new ArrayList<>();
                 for (int i=0; i<listOfMovies.size(); i++) {
                     mNames.add(listOfMovies.get(i).getTitle());
                     mImageUrls.add("https://image.tmdb.org/t/p/w185"+listOfMovies.get(i).getPosterPath());
                 }
-
-//                ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, list);
-//                listView.setAdapter(adapter);
-
                 initRecyclerView();
             }
 
